@@ -4,13 +4,8 @@ from celery.schedules import crontab
 # or running worker with --beat parameter for single worker.
 beat_schedule = {
     'every-hour': {
-        'task': 'tasks.add',
-        'schedule': crontab(minute=0, hour='*'),
-        'args': (1, 3)
-    },
-    'every-min': {
         'task': 'tasks.add_job',
-        'schedule': crontab(),
+        'schedule': crontab(minute=0, hour='*'),
         'kwargs': {
             'data': {
                 'suitename': 'try test suite',
