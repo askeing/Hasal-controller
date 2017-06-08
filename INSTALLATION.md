@@ -61,3 +61,23 @@ $ pip install celery
 ```bash
 $ celery beat --conf celeryconfig
 ```
+
+# Demo
+
+There is a simple demo code `driver.py`.
+
+You can test it after starting the `worker` and `flower`.
+
+```bash
+$ python driver.py
+```
+
+You should get the following output:
+```bash
+### add 1, 5
+Return:
+6
+### add job: {'platform': 'linux32', 'tests': ['test_firefox_testsuite_foo', 'test_firefox_testsuite_bar'], 'max_run': 30, 'suitename': 'try test suite'}
+Return:
+{"platform": "linux32", "tests": {"test_firefox_testsuite_bar": {"values": {"si": 200, "runtime_average": 10, "psi": 250, "runtime_median": 12}, "name": "test_firefox_testsuite_bar"}, "test_firefox_testsuite_foo": {"values": {"si": 200, "runtime_average": 10, "psi": 250, "runtime_median": 12}, "name": "test_firefox_testsuite_foo"}}, "max_run": 30, "suitename": "try test suite"}
+```
