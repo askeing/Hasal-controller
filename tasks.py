@@ -2,11 +2,13 @@ from __future__ import print_function
 import time
 import json
 import base64
+import subprocess
 
 from celery import Celery
 
 
-app = Celery('tasks', backend='rpc://', broker='pyamqp://guest@localhost//')
+app = Celery('tasks')
+app.config_from_object('celeryconfig')
 
 
 @app.task
@@ -67,6 +69,13 @@ def get_file():
     with open('img.png', 'r') as f:
         encoded_data = base64.b64encode(f.read())
         return encoded_data
+
+
+@app.task
+def run_hasal():
+    command_list = ['python', 'runtest.py']
+    print('### Run command: {}'.format(' '.join(command_list)))
+    subprocess.call(command_list)
 
 
 def save_file(encoded_data):

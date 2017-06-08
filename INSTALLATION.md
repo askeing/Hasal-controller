@@ -10,6 +10,38 @@ Or you can install it by `apt`.
 $ sudo apt install rabbitmq-server
 ```
 
+### Setting the RabbitMQ Configuration
+
+Creating the [RabbitMQ Configuration](http://www.rabbitmq.com/configure.html#configuration-file) file under `/etc/rabbitmq/rabbitmq.conf`:
+
+```bash
+$ sudo nano /etc/rabbitmq/rabbitmq.conf
+```
+
+A simple example (standard Erlang configuration):
+```
+[
+    {rabbit, [{tcp_listeners, [5672]}]}
+].
+```
+
+### Enabling the Management Plugin
+
+Enable the RabbitMQ's [Management Plugin](https://www.rabbitmq.com/management.html).
+
+```bash
+$ sudo rabbitmq-plugins enable rabbitmq_management
+```
+
+Then you can access the `http://localhost:15672/` to get the Management Console.
+
+### Adding User
+
+Clicking `Admin` tab, and then clicking `Add a user` to add a new user.
+For example, adding `tester` with password `HASALtest!`.
+
+After creating user, clicking user name `tester`, setting the permission.
+
 ## Celery and flower
 
 Install `Celery` and `flower`
@@ -18,7 +50,21 @@ Install `Celery` and `flower`
 $ pip install -r requirements.txt
 ```
 
-## Running flower
+### Editing the `celeryconfig` for Celery `tasks`
+
+Modifying the `broker_url` to fit the username, password, and IP address of your **RabbitMQ**.
+
+```python
+broker_url = 'pyamqp://[USERNAME]:[PASSWORD]@[IP_OR_HOSTNAME]//'
+```
+
+For example:
+
+```python
+broker_url = 'pyamqp://tester:HASALtest!@127.0.0.1//'
+```
+
+### Running flower
 
 Running `flower` on port 5555.
 
@@ -40,12 +86,22 @@ We will suggest you install it in `vitrualenv`.
 $ pip install celery
 ```
 
+### Editing the `celeryconfig` for Celery `tasks`
+
+Modifying the `broker_url` to fit the username, password, and IP address of your **RabbitMQ**.
+
+```python
+broker_url = 'pyamqp://[USERNAME]:[PASSWORD]@[IP_OR_HOSTNAME]//'
+```
+
 ## Running Worker
 ```bash
 $ celery -A tasks worker -c 1 --loglevel=info
 ```
 
 # Boss Installation
+
+This part is used for running tasks regularly.
 
 ## Celery
 
@@ -59,7 +115,7 @@ $ pip install celery
 ## Running Boss to trigger Periodic Tasks
 
 ```bash
-$ celery beat --conf celeryconfig
+$ celery beat --conf celeryconfig-boss
 ```
 
 # Demo

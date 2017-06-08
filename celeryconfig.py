@@ -1,22 +1,9 @@
-from celery.schedules import crontab
+# broker_url = 'pyamqp://[USERNAME]:[PASSWORD]@[IP_OR_HOSTNAME]//'
+broker_url = 'pyamqp://guest@localhost//'
+result_backend = 'rpc://'
 
-# trigger the scheduled tasks: $ celery beat --conf celeryconfig
-# or running worker with --beat parameter for single worker.
-beat_schedule = {
-    'every-hour': {
-        'task': 'tasks.add_job',
-        'schedule': crontab(minute=0, hour='*'),
-        'kwargs': {
-            'data': {
-                'suitename': 'try test suite',
-                'platform': 'linux32',
-                'max_run': 30,
-                'tests': [
-                    'test_firefox_testsuite_foo',
-                    'test_firefox_testsuite_bar'
-                ]
-            }
-        }
-    }
-}
-
+task_serializer = 'json'
+result_serializer = 'json'
+accept_content = ['json', 'pickle']
+# timezone = 'Asia/Taipei'
+enable_utc = True
