@@ -12,10 +12,10 @@ $ sudo apt install rabbitmq-server
 
 ### Setting the RabbitMQ Configuration
 
-Creating the [RabbitMQ Configuration](http://www.rabbitmq.com/configure.html#configuration-file) file under `/etc/rabbitmq/rabbitmq.conf`:
+Creating the [RabbitMQ Configuration](http://www.rabbitmq.com/configure.html#configuration-file) file under `/etc/rabbitmq/rabbitmq.config`:
 
 ```bash
-$ sudo nano /etc/rabbitmq/rabbitmq.conf
+$ sudo nano /etc/rabbitmq/rabbitmq.config
 ```
 
 A simple example (standard Erlang configuration):
@@ -35,6 +35,8 @@ $ sudo rabbitmq-plugins enable rabbitmq_management
 
 Then you can access the `http://localhost:15672/` to get the Management Console.
 
+Before you create the admin account, you can only login with `guest/guest` on `localhost` domain.
+
 ### Adding User
 
 Clicking `Admin` tab, and then clicking `Add a user` to add a new user.
@@ -42,12 +44,26 @@ For example, adding `tester` with password `HASALtest!`.
 
 After creating user, clicking user name `tester`, setting the permission.
 
+### Stop and Start RabbitMQ
+
+To stop RabbitMQ, you can use the [rabbitmqctl](https://www.rabbitmq.com/man/rabbitmqctl.1.man.html).
+The following command will instructs the RabbitMQ node to terminate:
+
+```bash
+sudo rabbitmqctl stop
+```
+To start RabbitMQ, you can use `service` (Ubuntu) command:
+
+```bash
+sudo service rabbitmq-server start
+```
+
 ## Celery and flower
 
 Install `Celery` and `flower`
 
 ```bash
-$ pip install -r requirements.txt
+$ pip install -r requirements-flower.txt
 ```
 
 ### Editing the `celeryconfig` for Celery `tasks`
