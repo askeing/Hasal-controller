@@ -10,6 +10,12 @@ from celery import Celery
 app = Celery('tasks')
 app.config_from_object('celeryconfig')
 
+app.control.mailbox.exchange_fmt = 'exchange/hasal-dev/%s.pidbox'
+app.control.mailbox.reply_exchange_fmt = 'exchange/hasal-dev/reply.%s.pidbox'
+
+# exchange_fmt = '%s.pidbox'
+# reply_exchange_fmt = 'reply.%s.pidbox'
+
 
 @app.task
 def add(x, y):
