@@ -1,6 +1,11 @@
 # project related
 .idea
 .env-python
+.boss
+.flower
+.celery
+.worker
+celery-config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

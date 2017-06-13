@@ -19,7 +19,7 @@ $ sudo nano /etc/rabbitmq/rabbitmq.config
 ```
 
 A simple example (standard Erlang configuration):
-```
+```text
 [
     {rabbit, [{tcp_listeners, [5672]}]}
 ].
@@ -50,12 +50,12 @@ To stop RabbitMQ, you can use the [rabbitmqctl](https://www.rabbitmq.com/man/rab
 The following command will instructs the RabbitMQ node to terminate:
 
 ```bash
-sudo rabbitmqctl stop
+$ sudo rabbitmqctl stop
 ```
 To start RabbitMQ, you can use `service` (Ubuntu) command:
 
 ```bash
-sudo service rabbitmq-server start
+$ sudo service rabbitmq-server start
 ```
 
 ## Celery and flower
@@ -66,18 +66,25 @@ Install `Celery` and `flower`
 $ pip install -r requirements-flower.txt
 ```
 
-### Editing the `celeryconfig` for Celery `tasks`
+### Editing the `celery-config.json` for Celery
 
-Modifying the `broker_url` to fit the username, password, and IP address of your **RabbitMQ**.
+You have to modify the `celery-config.json` file to connect to your **RabbitMQ**.
 
-```python
-broker_url = 'pyamqp://[USERNAME]:[PASSWORD]@[IP_OR_HOSTNAME]//'
+There is an existing template file `celery-config-template.json`, you can copy and edit it.
+
+```bash
+$ cp celery-config-template.json celery-config.json
+$ nano celery-config.json
 ```
 
 For example:
 
-```python
-broker_url = 'pyamqp://tester:HASALtest!@127.0.0.1//'
+```json
+{
+  "celery_username": "TW-NO-1",
+  "celery_password": "love5566",
+  "celery_host": "127.0.0.1"
+}
 ```
 
 ### Running flower
@@ -86,6 +93,12 @@ Running `flower` on port 5555.
 
 ```bash
 $ celery flower -A tasks --port=5555
+```
+
+Or run bash script:
+
+```bash
+$ ./run-flower.sh
 ```
 
 Then open browser and access `http://localhost:5555/`.
@@ -102,17 +115,39 @@ We will suggest you install it in `vitrualenv`.
 $ pip install celery
 ```
 
-### Editing the `celeryconfig` for Celery `tasks`
+### Editing the `celery-config.json` for Celery
 
-Modifying the `broker_url` to fit the username, password, and IP address of your **RabbitMQ**.
+You have to modify the `celery-config.json` file to connect to your **RabbitMQ**.
 
-```python
-broker_url = 'pyamqp://[USERNAME]:[PASSWORD]@[IP_OR_HOSTNAME]//'
+There is an existing template file `celery-config-template.json`, you can copy and edit it.
+
+```bash
+$ cp celery-config-template.json celery-config.json
+$ nano celery-config.json
+```
+
+For example:
+
+```json
+{
+  "celery_username": "TW-NO-1",
+  "celery_password": "love5566",
+  "celery_host": "127.0.0.1"
+}
 ```
 
 ## Running Worker
+
+Following command will launch a worker.
+
 ```bash
 $ celery -A tasks worker -c 1 --loglevel=info
+```
+
+Or run bash script:
+
+```bash
+$ ./run-worker.sh
 ```
 
 # Boss Installation
@@ -130,8 +165,15 @@ $ pip install celery
 ```
 ## Running Boss to trigger Periodic Tasks
 
+You can run periodic tasks by following command.
+
 ```bash
 $ celery beat --conf celeryconfig-boss
+```
+
+Or run bash script:
+```bash
+$ ./run-boss.sh
 ```
 
 # Demo
