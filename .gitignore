@@ -7,6 +7,10 @@
 .worker
 celery-config.json
 
+# celery related
+*.pid
+celerybeat-schedule
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

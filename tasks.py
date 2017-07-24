@@ -9,6 +9,9 @@ from celery import Celery
 
 app = Celery('tasks')
 app.config_from_object('celeryconfig')
+#app.conf.task_default_queue = 'win7'
+#app.conf.task_queues =
+app.conf.CELERY_DEFAULT_QUEUE = app.conf.task_default_queue
 
 
 @app.task

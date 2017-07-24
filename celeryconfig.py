@@ -7,6 +7,9 @@ logger = logging.getLogger(__file__)
 """
 Loading Broker URL
 """
+
+"""
+# RabbitMQ Broker
 broker_url = 'pyamqp://guest@localhost//'
 
 BROKER_URL_FMT = 'pyamqp://{username}:{password}@{host}//'
@@ -31,6 +34,11 @@ if os.path.exists(config_json_file):
                                                host=config_json.get(LC_CELERY_HOST))
     except Exception as e:
         logger.warn('Cannot load JSON file: {f}'.format(f=config_json_file))
+"""
+
+# Redis Broker
+broker_url = 'redis://:<PASSWORD>@10.247.120.27:6379/0'
+
 
 """
 Other settings
